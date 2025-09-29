@@ -212,21 +212,6 @@ For production deployment, consider using:
 2. **EC2** with a reverse proxy setup
 3. **AWS App Runner** for containerized deployment
 
-## 📁 Project Structure
-
-```
-├── app.py                     # Main Gradio application with direct AWS integration
-├── lambda_function.py         # Legacy Lambda function (optional, not used)
-├── parse_transcribe_output.py # Transcript parsing utility
-├── pyproject.toml            # Python dependencies and project config
-├── uv.lock                   # Dependency lockfile for reproducible builds
-├── start.py                  # Quick start script with auto-setup
-├── deploy.sh                 # Automated AWS setup script (S3 bucket + IAM policy generation)
-├── trust-policy.json         # Template IAM trust policy with placeholder bucket name
-├── README.md                 # This file
-└── .env                      # Environment variables (auto-created by deploy.sh)
-```
-
 ## 🔧 Usage
 
 1. **Upload Audio**: Drag and drop or click to upload an audio file (supports WAV, MP3, MP4, etc.)

@@ -48,14 +48,12 @@ fi
 echo -e "${GREEN}✅ S3 bucket setup completed${NC}"
 echo -e "${YELLOW}ℹ️  Note: Your AWS credentials need permissions for S3, Transcribe, and Bedrock${NC}"
 
-# Create .env file
-echo -e "${YELLOW}📝 Creating .env file...${NC}"
-cat > .env << EOF
-AWS_REGION=${REGION}
-S3_BUCKET=${BUCKET_NAME}
-EOF
-
-echo -e "${GREEN}✅ .env file created${NC}"
+# Set environment variables
+echo -e "${YELLOW}📝 Setting environment variables...${NC}"
+export AWS_REGION=${REGION}
+export S3_BUCKET=${BUCKET_NAME}
+echo -e "${GREEN}✅ Environment variables set${NC}"
+echo -e "${YELLOW}ℹ️  Note: Run 'source deploy.sh' to set variables in your current shell${NC}"
 
 # Generate personalized trust policy
 echo -e "${YELLOW}📝 Generating personalized trust policy...${NC}"

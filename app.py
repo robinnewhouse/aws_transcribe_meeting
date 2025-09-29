@@ -105,6 +105,7 @@ def wait_for_transcription(job_name):
 
 def get_bedrock_analysis(transcript, instructions):
     """Use Bedrock to analyze the transcript and generate insights"""
+    print(f"DEBUG: Starting Bedrock analysis with instructions: {instructions[:100]}")
     prompt = f"""Instructions: {instructions}
 
 Meeting Transcript:
@@ -127,21 +128,35 @@ Format with clear sections and headers."""
     }
         
     try:
+        print(f"DEBUG: Sending request to Bedrock model")
         response = bedrock.invoke_model(
             modelId="openai.gpt-oss-120b-1:0",
             body=json.dumps(body)
         )
+        print(f"DEBUG: Received response from Bedrock with status code: {response['ResponseMetadata']['HTTPStatusCode']}")
+        
         content = json.loads(response['body'].read())['choices'][0]['message']['content']
+        print(f"DEBUG: Generated analysis length: {len(content)} characters")
         
         # Remove reasoning tags if present
         if '<reasoning>' in content:
+            print(f"DEBUG: Removing reasoning tags from content")
             content = content.split('</reasoning>')[-1].strip()
-        
+            
+        print(f"DEBUG: Final analysis ready")
         return content
+        
     except Exception as e:
+        print(f"ERROR: AI Analysis Failed - {str(e)}")
         print(f"DEBUG: Error type: {type(e).__name__}")
         print(f"DEBUG: Error message: {str(e)}")
-        raise
+        print(f"DEBUG: Error arguments: {e.args}")
+        
+        # If there's a response, log it
+        if hasattr(e, 'response'):
+            print(f"DEBUG: Bedrock Response: {e.response}")
+            
+        raise Exception(f"AI Analysis Failed: {str(e)}")
 
 def create_download_file(content, filename):
     """Create a temporary file for download"""
